@@ -1,0 +1,16 @@
+#relogio{
+    font-family: "Lora", serif;
+    font-size: larger;
+    text-align: center;
+}
+
+#cronometro {
+    font-family: "Lora", serif;
+    font-size: xx-large;
+    text-align: center;
+    color: rgb(247, 150, 150);
+    border: 10px;
+    border-radius: 10%;
+    background-color: antiquewhite;
+    max-width: 100%;
+    }

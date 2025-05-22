@@ -1,84 +1,35 @@
 <!DOCTYPE html>
-<html lang="pt">
-
+<html>
 <head>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Controle de Tempo</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap"
-        rel="stylesheet">
-
-    <link rel="stylesheet" href="style.css">
+    <title>Timer Regressivo</title>
 </head>
-
 <body>
-    <h1> Agora são exatamente:</h1>
-    <h2 id="relogio"></h2>
+    <h1>Timer Regressivo</h1>
+    <p id="timer"></p>
+
     <script>
-        function atualizarRelogio() {
-            const agora = new Date();
-            const horas = agora.getHours().toString().padStart(2, '0'); //1:5:30 01:05:30
-            const minutos = agora.getMinutes().toString().padStart(2, '0');
-            const segundos = agora.getSeconds().toString().padStart(2, '0');
+        const tempoTotalSegundos = 5 * 60; // 5 minutos * 60 segundos
+        let segundosRestantes = tempoTotalSegundos;
+        const displayTimer = document.getElementById('timer');
 
-            document.getElementById("relogio").innerText = `${horas}:${minutos}:${segundos}`;
-        }
-        setInterval(atualizarRelogio, 1000);
-        atualizarRelogio();
-    </script>
-    <hr>
-    <h2 id="cronometro">00:00:00</h2>
-    <div>
-        <button onclick="iniciar()" id="btIniciar">iniciar</button>
-        <button onclick="pausar()" id="btPausar">Pausar</button>
-        <button onclick="zerar()" id="btZerar">Zerar</button>
-    </div>
-    <script>
-        let segundos = 0;
-        let intervalo;
+        function atualizarTimer() {
+            const minutos = Math.floor(segundosRestantes / 60);
+            const segundos = segundosRestantes % 60;
 
-        function formatarTime(segundos) {
-            const h = String(Math.floor(segundos / 3600)).padStart(2, '0');
-            const m = String(Math.floor((segundos % 3600) / 60)).padStart(2, '0');
-            const s = String(segundos % 60).padStart(2, '0');
-            return `${h}:${m}:${s}`;
-        }
+            displayTimer.textContent = `Tempo restante: ${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
 
-        function atualizarCronometro() {
-            document.getElementById('cronometro').innerText = formatarTime(segundos);
-        }
-        function iniciar() {
-            if (!intervalo) {
-                intervalo = setInterval(() => {
-                    segundos++;
-                    atualizarCronometro();
-                }, 1000);
+            if (segundosRestantes <= 0) {
+                clearInterval(intervalo); // Para o timer
+                displayTimer.textContent = "Tempo esgotado!";
             }
-
+            segundosRestantes--;
         }
-        function pausar() {
-            if (intervalo) {
-                clearInterval(intervalo);
-                intervalo = null;
-            }
-            document.getElementById("btIniciar").innerText
-            "retomar"
 
+        // Chama a função a cada segundo
+        const intervalo = setInterval(atualizarTimer, 1000);
 
-        }
-        function zerar() {
-            pausar();
-            segundos = 0;
-            atualizarCronometro();
-            document.getElementById("btIniciar").innerText
-            "iniciar"
-        }
+        // Chama a função uma vez imediatamente para exibir o tempo inicial
+        atualizarTimer();
     </script>
-
-
 </body>
-
 </html>
